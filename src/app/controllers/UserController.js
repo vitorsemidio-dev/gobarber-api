@@ -62,7 +62,7 @@ class UserController {
       return res.status(404).json({ error: 'User does not found' });
     }
 
-    if (email !== user.email) {
+    if (email && email !== user.email) {
       const userExists = await User.findOne({ where: { email } });
 
       if (userExists) {
