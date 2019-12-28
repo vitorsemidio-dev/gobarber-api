@@ -47,6 +47,13 @@ class AppointmentController {
     }
 
     const { provider_id, date } = req.body;
+    const { userId } = req;
+
+    if (provider_id === userId) {
+      return res
+        .status(400)
+        .json({ error: 'Provider cannot create appointment with self' });
+    }
 
     /**
      * Check if provider_id is a provider
@@ -83,12 +90,12 @@ class AppointmentController {
     }
 
     const appointment = await Appointment.create({
-      user_id: req.userId,
+      user_id: userId,
       provider_id,
       date: hourStart,
     });
 
-    const client = await User.findByPk(req.userId);
+    const client = await User.findByPk(userId);
     const formattedDate = format(
       hourStart,
       "'dia' dd 'de' MMMM', às' H:mm'h'",
