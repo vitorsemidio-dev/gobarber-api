@@ -14,6 +14,8 @@ class Mail {
       secure,
       auth: auth.user ? auth : null,
     });
+
+    this.configureTemplates();
   }
 
   configureTemplates() {
@@ -25,7 +27,7 @@ class Mail {
         viewEngine: exphbs.create({
           layoutsDir: resolve(viewPath, 'layouts'),
           partialsDir: resolve(viewPath, 'partials'),
-          defaultLayout: 'defaults',
+          defaultLayout: 'default',
           extname: '.hbs',
         }),
         viewPath,
