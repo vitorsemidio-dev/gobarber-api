@@ -29,15 +29,14 @@ class AvailableController {
       },
     });
 
-    const intervalo = (start, end) => {
-      const schedules = [];
-      for (let hour = start; hour <= end; hour++) {
-        schedules.push(hour >= 10 ? `${hour}:00` : `0${hour}:00`);
-      }
-      return schedules;
+    const rangeHours = (begin, end) => {
+      if (begin > end) return [];
+      return begin === end ? [begin] : [begin, ...rangeHours(begin + 1, end)];
     };
+    const formatHour = hour => (hour >= 10 ? `${hour}:00` : `0${hour}:00`);
 
-    const schedule = intervalo(8, 19);
+    let schedule = rangeHours(8, 19);
+    schedule = schedule.map(hour => formatHour(hour));
 
     const avaiable = schedule.map(time => {
       const [hour, minute] = time.split(':');
